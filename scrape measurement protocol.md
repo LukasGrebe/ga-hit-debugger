@@ -25,7 +25,10 @@ copy((()=>{
 				param.description = node.children[1].innerText;
 
 				let td = node.querySelectorAll('tr:nth-child(2) > td');
-				param.key = td[0].innerText;
+				param.keyRegex = '^' + td[0].innerText.replace(/<\w+>/g,'(\\d+)') + '$';
+				if(keyMatches = td[0].innerText.match(/<\w+>/g,'(\\d+)')){
+					param.keyRegexMatches = keyMatches.map((m)=>m.slice(1,-1));
+				}
 				param.valueType = td[1].innerText;
 				param.defaultValue = td[2].innerText;
 				param.maxLength = td[3].innerText;
